@@ -53,6 +53,16 @@ class SublimeHighlightCommand(sublime_plugin.TextCommand):
         else:
             return sublime.Region(0, self.view.size())
 
+    def get_lexer_from_scope(self):
+        view = self.view
+        pt = view.sel()[0].a
+        scope_name = view.scope_name(pt)
+        for sn in scope_name.split(' '):
+            if 'source.' in sn:
+                sourcename = sn[7:]
+                print("get lexer from scope: %r" % sourcename)
+                return pygments.lexers.get_lexer_by_name(sourcename)
+        return 
     def guess_lexer_from_syntax(self):
         syntax = self.view.settings().get('syntax')
         if not syntax:
@@ -85,6 +95,10 @@ class SublimeHighlightCommand(sublime_plugin.TextCommand):
         if not lexer:
             lexer = self.guess_lexer_from_syntax()
         if not lexer:
+            lexer = self.get_lexer_from_scope()
+            print("try get_lexer_from_scope %r" % lexer)
+        if not lexer:
+            print("try guess_lexer %r" % lexer)
             lexer = pygments.lexers.guess_lexer(code)
         try:
             options = settings_get('lexer_options', {}).get(lexer.name)
