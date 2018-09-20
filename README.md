@@ -33,6 +33,10 @@ code from Sublime Tex 2 to other softwares like Powerpoint, Keynotes, Word, etc.
 
 ![capture](http://f.cl.ly/items/0p0w3w3y2V3P2v1H0q1a/SublimeHighlight.png)
 
+Changes
+--------
+- add function `get_lexer_from_scope` to support java language when in markdown syntax file.
+
 Settings
 --------
 
